@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: server
+    image: server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes: 
+      - ./server/src:/var/www/html/
+      - ./server/clang:/var/www/html/clang
+      - ./server/py:/var/www/html/py
+      - ./server/export:/export
+ 
+   
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: itt440
+  phpMyAdmin:
+    image: phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
+
+
+  client1:
+    container_name: client1
+    build:
+      context: .
+      dockerfile: ./client1/Dockerfile
+    restart: always
+    ports:
+      - "8001:80" 
+ 
+    volumes: 
+      - ./client1/src:/var/www/html/
+      - ./client1/clang:/var/www/html/clang
+      - ./client1/py:/var/www/html/py
+      - ./client1/export:/export
+
+
+  client3:
+    container_name: client3
+    build:
+      context: .
+      dockerfile: ./client3/Dockerfile
+    restart: always
+    ports:
+      - "8011:80" 
+
+ 
+
+
+
